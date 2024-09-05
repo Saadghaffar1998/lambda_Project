@@ -2,11 +2,15 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      python: 3.8
+    commands:
+      - echo "Installing dependencies"
+      - pip install -r requirements.txt -t .
   build:
     commands:
-      - echo "Building Lambda function"
-      - aws s3 cp s3://developer-repo/lambda_function.zip lambda_function.zip
-      - aws s3 cp lambda_function.zip s3://saad-lambda/lambda_function.zip
-      - aws lambda update-function-code --function-name example_lambda_function --s3-bucket saad-lambda --s3-key lambda_function.zip
+      - echo "Zipping the Lambda function"
+      - zip -r lambda-function.zip .  # Zip the Python Lambda function for deployment
+
+artifacts:
+  files:
+    - lambda-function.zip
+

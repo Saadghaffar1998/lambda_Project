@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+  build:
+    commands:
+      - echo "Building Lambda function"
+      - aws s3 cp s3://developer-repo/lambda_function.zip lambda_function.zip
+      - aws s3 cp lambda_function.zip s3://saad-lambda/lambda_function.zip
+      - aws lambda update-function-code --function-name example_lambda_function --s3-bucket saad-lambda --s3-key lambda_function.zip
